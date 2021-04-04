@@ -1,0 +1,36 @@
+<div class="row">
+
+    <div class="col-sm-12">
+        <h4 id="js_time"> {{Hours}} : {{Minutes}} : {{Seconds}}</h4>
+    </div>
+    
+    
+    <div class="col-sm-12">
+        <div class="btn-group">
+            
+            <!--Start Button -->
+            <button type="button" [hidden]="IsRunning == true" (click)="StartTimer()" class="btn btn-success btn-sm" title="Start">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M15 12.3301L9 16.6603L9 8L15 12.3301Z" fill="currentColor" />
+                </svg>
+            </button>
+
+            <!-- Pause button -->
+            <button type="button" [hidden]="IsRunning == false" (click)="PauseTimer()" class="btn btn-primary btn-sm" title="Pause">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11 7H8V17H11V7Z" fill="currentColor" />
+                <path d="M13 17H16V7H13V17Z" fill="currentColor" />
+                </svg>
+            </button>
+
+            <!-- Stop Button -->
+            <button type="button" (click)="StopTimer()" class="btn btn-danger btn-sm" title="Stop">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 7H17V17H7V7Z" fill="currentColor" />
+                </svg>
+            </button>
+
+        </div>
+    </div>    
+
+</div>
