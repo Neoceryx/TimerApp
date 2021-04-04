@@ -1,14 +1,40 @@
-
 <app-navbar></app-navbar>
 
 <div class="row">
-    <div class="col-sm-12">
+  <div class="col-sm-12">
 
-        <div class="text-center">
-            <div style="margin-top: 10%;">
-                <app-stop-watch></app-stop-watch>
-            </div>
+    <ul class="nav nav-pills row">
+      <li class="nav-item col-sm-6">
+        <a class="nav-link active" data-toggle="tab" href="#stopwatch">
+            Stopwatch
+        </a>
+      </li>
+      <li class="nav-item col-sm-6">
+        <a class="nav-link" data-toggle="tab" href="#timers">
+            Timers
+        </a>
+      </li>
+    </ul>
+
+  </div>
+
+  <div class="col-sm-12">
+    <div class="text-center">
+      <div style="margin-top: 10%">
+
+        <div class="tab-content">
+          
+            <div class="tab-pane container active" id="stopwatch">
+            <app-stop-watch></app-stop-watch>
+          </div>
+          
+          <div class="tab-pane container fade" id="timers">
+              Comming Soon
+          </div>
+
         </div>
 
+      </div>
     </div>
+  </div>
 </div>
