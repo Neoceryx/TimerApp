@@ -3,11 +3,13 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import {StopWatchComponent } from "./stop-watch/stop-watch.component";
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    StopWatchComponent
+    StopWatchComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule
