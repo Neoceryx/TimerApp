@@ -10,8 +10,8 @@ export class TimerComponent implements OnInit {
   constructor() { }
 
   Hours:number = 0;
-  Minutes:number = 0;
-  Seconds:number = 5;
+  Minutes:number = 2;
+  Seconds:number = 0;
 
   Timer:any = null;
   Sound = new Audio("/assets/sounds/alarm-clock.mp3");
@@ -22,7 +22,7 @@ export class TimerComponent implements OnInit {
 
   async StartTimer(){
 
-    this.IsRunning = true;
+    this.IsRunning = true;  
 
      this.Timer = setInterval(() => {
        this.StartDecrement();
@@ -47,15 +47,26 @@ export class TimerComponent implements OnInit {
 
   async StartDecrement(){
 
+    
     this.Seconds--;
-
-    if (this.Seconds <= 0) {
-      
+    
+    if (this.Seconds <= 0 && this.Minutes <= 0 && this.Hours <=0) {
       await this.StopTimer();
-      this.Sound.play();
+      this.Sound.play();        
+    }else{
+
+      if (this.Seconds <= -1) { 
+
+        this.Seconds = 59;
+        this.Minutes --;
+  
+        if (this.Minutes <= 0 && this.Hours <= 0) {
+          this.Minutes = 0;
+        }
+          
+      }
 
     }
-
 
   }
   // End function
