@@ -61,10 +61,15 @@ export class TimerComponent implements OnInit {
 
   async StartDecrement(){
 
+    // To fix the valus got by string
+    this.Hours = parseInt(this.Hours.toString());
+    this.Minutes = parseInt(this.Minutes.toString());
+    this.Seconds = parseInt(this.Seconds.toString());
+    
     var HoursToSec = this.Hours * 3600;
     var MinToSec = this.Minutes * 60;
     var TotalSec = 0;
-    debugger
+    
     if (this.Hours == 0 && this.Minutes == 59  && this.Seconds == 59) {
       TotalSec = HoursToSec + MinToSec;
     }else{

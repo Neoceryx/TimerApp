@@ -10,7 +10,7 @@
             
             <div class="col-sm-2 form-gropu">
                 <select [(ngModel)]="Hours" name="Hours" class="form-control">
-                    <option *ngFor="let h of HoursAvailables" value="{{h}}">
+                    <option *ngFor="let h of HoursAvailables" [value]="h">
                         {{h}}
                     </option>
                 </select>
@@ -18,7 +18,7 @@
 
             <div class="col-sm-2 form-gropu">
                 <select [(ngModel)]="Minutes" name="Minutes" class="form-control">
-                    <option *ngFor="let m of MinutesAndSecondsArray" value="{{m}}">
+                    <option *ngFor="let m of MinutesAndSecondsArray" [value]="m">
                         {{m}}
                     </option>
                 </select>
@@ -26,7 +26,7 @@
 
             <div class="col-sm-2 form-gropu">
                 <select [(ngModel)]="Seconds" name="Seconds" class="form-control">
-                    <option *ngFor="let s of MinutesAndSecondsArray" value="{{s}}">
+                    <option *ngFor="let s of MinutesAndSecondsArray" [value]="s">
                         {{s}}
                     </option>
                 </select>
