@@ -5,6 +5,8 @@ import { AppComponent } from './app.component';
 import {StopWatchComponent } from "./stop-watch/stop-watch.component";
 import { NavbarComponent } from './navbar/navbar.component';
 import { TimerComponent } from './timer/timer.component';
+import { FormsModule } from '@angular/forms'; 
+
 
 @NgModule({
   declarations: [
@@ -14,7 +16,8 @@ import { TimerComponent } from './timer/timer.component';
     TimerComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -9,7 +9,7 @@ export class TimerComponent implements OnInit {
 
   constructor() { }
 
-  Hours:number = 1;
+  Hours:number = 0;
   Minutes:number = 0;
   Seconds:number = 0;
 
@@ -18,40 +18,53 @@ export class TimerComponent implements OnInit {
   IsRunning:boolean = false;
   IsEditEnabled:boolean = false;
 
+  HoursAvailables: number[] = [];
+  MinutesAndSecondsArray: number[] =[];
+
   ngOnInit(): void {
+    this.InitializeEditFormValues();
   }
 
   async StartTimer(){
 
-    this.IsRunning = true; 
+    if (this.Hours == 0 && this.Minutes == 0 && this.Seconds == 0) {
+      alert("Please select valid duration");
+    }else{      
 
-     this.Timer = setInterval(() => {
-       this.StartDecrement();
-    }, 1000);
+      this.IsRunning = true;       
+      await this.EnableEditTimer();
+
+      this.Timer = setInterval(() => {
+        this.StartDecrement();
+      }, 1000);
+
+    }
 
   }
-  
+  // End function
 
   async StopTimer(){
 
-    await this.PauseTimer();
+    await this.PauseTimer();    
 
-   this.Hours = 0;
-   this.Minutes = 0;
-   this.Seconds = 0;
+    this.Hours = 0;
+    this.Minutes = 0;
+    this.Seconds = 0;
 
-   this.Sound.pause();
+    this.Sound.pause();
 
-   this.IsRunning = false;
+    this.IsRunning = false;
+    this.IsEditEnabled = false;
 
   }
+  // end function
 
   async StartDecrement(){
 
     var HoursToSec = this.Hours * 3600;
     var MinToSec = this.Minutes * 60;
     var TotalSec = 0;
-    
+    debugger
     if (this.Hours == 0 && this.Minutes == 59  && this.Seconds == 59) {
       TotalSec = HoursToSec + MinToSec;
     }else{
@@ -73,8 +86,9 @@ export class TimerComponent implements OnInit {
     if (TotalSecondsRemaining <= 0) {
      
       await this.StopTimer();
-      this.Sound.play();   
-   
+      this.Sound.play();
+      console.log("Time's up");
+
     }
 
   }
@@ -84,9 +98,25 @@ export class TimerComponent implements OnInit {
     this.IsRunning = false;
     clearInterval(this.Timer);
   }
+  // End function
 
   async EnableEditTimer() {
-    this.IsEditEnabled = true;
+
+    this.IsEditEnabled = this.IsEditEnabled == false ? true :false;
+
+  }
+  // End function
+
+  InitializeEditFormValues(){
+
+    for (let index = 0; index < 25; index++) {
+      this.HoursAvailables.push(index);            
+    }
+
+    for (let index = 0; index < 60; index++) {
+      this.MinutesAndSecondsArray.push(index);
+    }
+
   }
   // End function
 
