@@ -16,6 +16,7 @@ export class TimerComponent implements OnInit {
   Timer:any = null;
   Sound = new Audio("/assets/sounds/alarm-clock.mp3");
   IsRunning:boolean = false;
+  IsEditEnabled:boolean = false;
 
   ngOnInit(): void {
   }
@@ -83,6 +84,11 @@ export class TimerComponent implements OnInit {
     this.IsRunning = false;
     clearInterval(this.Timer);
   }
+
+  async EnableEditTimer() {
+    this.IsEditEnabled = true;
+  }
+  // End function
 
 
 }
