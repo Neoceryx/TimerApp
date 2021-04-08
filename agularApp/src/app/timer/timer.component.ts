@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+declare var $:any;
+
 @Component({
   selector: 'app-timer',
   templateUrl: './timer.component.html',
@@ -23,6 +25,18 @@ export class TimerComponent implements OnInit {
 
   ngOnInit(): void {
     this.InitializeEditFormValues();
+
+    setTimeout(() => {
+      
+      $(".js_autocomplete").selectize({
+        persist: false,
+        createOnBlur: true,
+        create: true
+      });
+
+      debugger
+    }, 1000);
+
   }
 
   async StartTimer(){
