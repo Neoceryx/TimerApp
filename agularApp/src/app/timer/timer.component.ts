@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
 
 declare var $:any;
 
@@ -10,6 +11,7 @@ declare var $:any;
 export class TimerComponent implements OnInit {
 
   constructor() { }
+
 
   Hours:number = 0;
   Minutes:number = 0;
@@ -42,7 +44,13 @@ export class TimerComponent implements OnInit {
   async StartTimer(){
 
     if (this.Hours == 0 && this.Minutes == 0 && this.Seconds == 0) {
-      alert("Please select valid duration");
+
+      Swal.fire({
+        title: 'Upps!',
+        text: 'Please select a valid duration',
+        icon: 'error'
+      })
+
     }else{      
 
       this.IsRunning = true;       
@@ -106,7 +114,18 @@ export class TimerComponent implements OnInit {
      
       await this.StopTimer();
       this.Sound.play();
-      console.log("Time's up");
+
+      Swal.fire({
+        title: "Time's up",
+        icon: 'success'
+      }).then((results) =>{
+        
+        // If press ok
+        if (results.isConfirmed) {
+          this.StopTimer();
+        }
+
+      })
 
     }
 
