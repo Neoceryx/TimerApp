@@ -75,11 +75,8 @@ export class TimerComponent implements OnInit {
   // end function
 
   async StartDecrement() {
-    // To fix the valus got by string
-    this.Hours = parseInt(this.Hours.toString());
-    this.Minutes = parseInt(this.Minutes.toString());
-    this.Seconds = parseInt(this.Seconds.toString());
-
+    
+    // Parse all values to seconds
     var HoursToSec = this.Hours * 3600;
     var MinToSec = this.Minutes * 60;
     var TotalSec = 0;
