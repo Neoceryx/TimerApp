@@ -28,16 +28,16 @@ export class TimerComponent implements OnInit {
   ngOnInit(): void {
     this.InitializeEditFormValues();
 
-    setTimeout(() => {
+    // setTimeout(() => {
       
-      $(".js_autocomplete").selectize({
-        persist: false,
-        createOnBlur: true,
-        create: true
-      });
+    //   $(".js_autocomplete").selectize({
+    //     persist: false,
+    //     createOnBlur: true,
+    //     create: true
+    //   });
 
-      debugger
-    }, 1000);
+      
+    // }, 1000);
 
   }
 
@@ -48,13 +48,14 @@ export class TimerComponent implements OnInit {
       Swal.fire({
         title: 'Upps!',
         text: 'Please select a valid duration',
-        icon: 'error'
+        icon: 'error',
+        allowOutsideClick: false
       })
 
     }else{      
-
+      
       this.IsRunning = true;       
-      await this.EnableEditTimer();
+      this.IsEditEnabled = false;
 
       this.Timer = setInterval(() => {
         this.StartDecrement();
@@ -117,7 +118,8 @@ export class TimerComponent implements OnInit {
 
       Swal.fire({
         title: "Time's up",
-        icon: 'success'
+        icon: 'success',
+        allowOutsideClick: false
       }).then((results) =>{
         
         // If press ok
@@ -138,10 +140,8 @@ export class TimerComponent implements OnInit {
   }
   // End function
 
-  async EnableEditTimer() {
-
+  async EnableEditTimer() {    
     this.IsEditEnabled = this.IsEditEnabled == false ? true :false;
-
   }
   // End function
 
