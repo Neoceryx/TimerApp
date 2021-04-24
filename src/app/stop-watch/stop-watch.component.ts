@@ -81,8 +81,11 @@ export class StopWatchComponent implements OnInit {
   // end function
 
   async SaveInterval(){
-    this.IntervalsSaved.push(this.hours +":" + this.minutes + ":" + this.seconds )
-    console.log(this.IntervalsSaved)  
+    
+    if(this.IsRunning == true){      
+      this.IntervalsSaved.push(this.hours +":" + this.minutes + ":" + this.seconds )
+    }
+
   };
   // end function
 
