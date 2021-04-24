@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { async } from 'rxjs';
 import Swal from 'sweetalert2';
 
 declare var $:any;
@@ -34,10 +33,10 @@ export class TimerComponent implements OnInit {
 
   async StartTimer() {
     
-    // Get Values from AutoComplete Controls
-    this.Hours = this.GetValueAutoCompleted(this.HoursControl[0].selectize.items[0]);
-    this.Minutes = this.GetValueAutoCompleted(this.MinutesControl[0].selectize.items[0]);
-    this.Seconds = this.GetValueAutoCompleted(this.SecondsControl[0].selectize.items[0])
+    // Get Values from AutoComplete Controls Or Resume the lasted value when pause was pressed
+    this.Hours = this.Hours <= 0 ? this.GetValueAutoCompleted(this.HoursControl[0].selectize.getValue()) : this.Hours;
+    this.Minutes = this.Minutes <= 0 ? this.GetValueAutoCompleted(this.MinutesControl[0].selectize.getValue()) : this.Minutes;
+    this.Seconds =  this.Seconds <= 0 ? this.GetValueAutoCompleted(this.SecondsControl[0].selectize.getValue()) : this.Seconds;
     
     // Validate Values in the Timer
     if (this.Hours == 0 && this.Minutes == 0 && this.Seconds == 0) {
@@ -61,11 +60,18 @@ export class TimerComponent implements OnInit {
   // End function
 
   async StopTimer() {
+
     await this.PauseTimer();
 
     this.Hours = 0;
     this.Minutes = 0;
     this.Seconds = 0;
+    debugger
+    var qqq = this.HoursControl[0].selectize.getValue()
+    console.log(qqq)
+    this.MinutesControl[0].selectize
+    this.SecondsControl[0].selectize
+
 
     this.Sound.pause();
 
@@ -75,7 +81,7 @@ export class TimerComponent implements OnInit {
   // end function
 
   async StartDecrement() {
-    
+
     // Parse all values to seconds
     var HoursToSec = this.Hours * 3600;
     var MinToSec = this.Minutes * 60;
@@ -100,6 +106,7 @@ export class TimerComponent implements OnInit {
     this.Seconds = Math.round(SecondsRemaining);
 
     if (TotalSecondsRemaining <= 0) {
+
       await this.StopTimer();
       this.Sound.play();
 
@@ -109,12 +116,18 @@ export class TimerComponent implements OnInit {
         allowOutsideClick: false,
         allowEscapeKey: false,
       }).then((results) => {
+
         // If press ok
         if (results.isConfirmed) {
           this.StopTimer();
         }
+
       });
+      // End Notification
+
     }
+    // End if
+
   }
   // End function
 
@@ -166,7 +179,7 @@ export class TimerComponent implements OnInit {
   // End function
 
   GetValueAutoCompleted(ValToCompare:any):number {
-    var data = typeof ValToCompare !== "undefined" ? ValToCompare : 0    
+    var data =  ValToCompare !== "" ? ValToCompare : 0    
     return parseInt(data);
   }
   // End function
