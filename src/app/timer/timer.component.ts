@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { async } from 'rxjs';
 import Swal from 'sweetalert2';
 
 declare var $:any;
@@ -32,10 +33,10 @@ export class TimerComponent implements OnInit {
   }
 
   async StartTimer() {
+    
+    this.Hours = this.GetValueAutoCompleted(this.HoursControl[0].selectize.items[0]);
+    this.Minutes = this.GetValueAutoCompleted(this.MinutesControl[0].selectize.items[0]);
     debugger
-    var HoursSelected = this.HoursControl[0].selectize.items[0];
-
-    this.Hours = typeof HoursSelected !== "undefined" ? HoursSelected : 0;
 
     if (this.Hours == 0 && this.Minutes == 0 && this.Seconds == 0) {
       Swal.fire({
@@ -129,7 +130,8 @@ export class TimerComponent implements OnInit {
   // End function
 
   InitializeEditFormValues() {
-
+    
+    // Fill Arrays for the UI Controls
     for (let index = 0; index < 25; index++) {
       this.HoursAvailables.push({'id': index});
     }
@@ -138,6 +140,7 @@ export class TimerComponent implements OnInit {
       this.MinutesAndSecondsArray.push({'id': index});
     }
 
+    // Standar for Timer Control(Hours, mininutes and Seconds)
     var ControlOptions = {
       create: true,
       valueField: 'id',
@@ -146,9 +149,18 @@ export class TimerComponent implements OnInit {
       options: this.HoursAvailables,
     };
 
+    // Initialize UI Controls
     this.HoursControl = $('#js_HoursAutocomplete').selectize(ControlOptions);
     this.MinutesControl = $("#js_MinAutocomplete").selectize(ControlOptions);
 
   }
   // End function
+
+  GetValueAutoCompleted(ValToCompare:any):number {
+    debugger
+    var data = typeof ValToCompare !== "undefined" ? ValToCompare : 0    
+    return parseInt(data);
+
+  }
+
 }
