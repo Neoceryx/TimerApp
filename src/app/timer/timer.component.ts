@@ -116,7 +116,8 @@ export class TimerComponent implements OnInit {
       Swal.fire({
         title: "Time's up",
         icon: 'success',
-        allowOutsideClick: false
+        allowOutsideClick: false,
+        allowEscapeKey: false
       }).then((results) =>{
         
         // If press ok
