@@ -66,12 +66,10 @@ export class TimerComponent implements OnInit {
     this.Hours = 0;
     this.Minutes = 0;
     this.Seconds = 0;
-    debugger
-    var qqq = this.HoursControl[0].selectize.getValue()
-    console.log(qqq)
-    this.MinutesControl[0].selectize
-    this.SecondsControl[0].selectize
 
+    this.HoursControl[0].selectize.setValue(0);
+    this.MinutesControl[0].selectize.setValue(0);
+    this.SecondsControl[0].selectize.setValue(0);
 
     this.Sound.pause();
 
@@ -174,6 +172,11 @@ export class TimerComponent implements OnInit {
     this.HoursControl = $('#js_HoursAutocomplete').selectize(HoursControlOptions);
     this.MinutesControl = $("#js_MinAutocomplete").selectize(MinAndSecondsControlOptions);
     this.SecondsControl = $("#js_SecondsAutocomplete").selectize(MinAndSecondsControlOptions)
+
+    // Auto Select the value 0 in all Timer control
+    this.HoursControl[0].selectize.setValue(0);
+    this.MinutesControl[0].selectize.setValue(0);
+    this.SecondsControl[0].selectize.setValue(0);
 
   }
   // End function
