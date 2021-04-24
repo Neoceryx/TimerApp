@@ -1,7 +1,7 @@
 <div class="row">
 
     <div class="col-sm-12">
-        <h4 id="js_time" [hidden]="IsEditEnabled == true"> {{Hours}} : {{Minutes}} : {{Seconds}}</h4>
+        <h4 id="js_time" [hidden]="IsEditEnabled == true"> {{Hours | number:'2.0-0'}} : {{Minutes | number:'2.0-0'}} : {{Seconds | number:'2.0-0'}}</h4>
 
         <!-- Set Timer values form -->
         <form class="row" [hidden]="IsEditEnabled == false" style="margin-bottom: 2%;">
