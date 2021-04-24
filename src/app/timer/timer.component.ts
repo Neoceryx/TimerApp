@@ -34,10 +34,12 @@ export class TimerComponent implements OnInit {
 
   async StartTimer() {
     
+    // Get Values from AutoComplete Controls
     this.Hours = this.GetValueAutoCompleted(this.HoursControl[0].selectize.items[0]);
     this.Minutes = this.GetValueAutoCompleted(this.MinutesControl[0].selectize.items[0]);
-    debugger
-
+    this.Seconds = this.GetValueAutoCompleted(this.SecondsControl[0].selectize.items[0])
+    
+    // Validate Values in the Timer
     if (this.Hours == 0 && this.Minutes == 0 && this.Seconds == 0) {
       Swal.fire({
         title: 'Upps!',
@@ -53,6 +55,7 @@ export class TimerComponent implements OnInit {
       this.Timer = setInterval(() => {
         this.StartDecrement();
       }, 1000);
+
     }
   }
   // End function
@@ -141,7 +144,7 @@ export class TimerComponent implements OnInit {
     }
 
     // Standar for Timer Control(Hours, mininutes and Seconds)
-    var ControlOptions = {
+    var HoursControlOptions = {
       create: true,
       valueField: 'id',
       labelField: 'id',
@@ -149,18 +152,26 @@ export class TimerComponent implements OnInit {
       options: this.HoursAvailables,
     };
 
+    var MinAndSecondsControlOptions = {
+      create: true,
+      valueField: 'id',
+      labelField: 'id',
+      searchField: 'id',
+      options: this.MinutesAndSecondsArray,
+    };
+
     // Initialize UI Controls
-    this.HoursControl = $('#js_HoursAutocomplete').selectize(ControlOptions);
-    this.MinutesControl = $("#js_MinAutocomplete").selectize(ControlOptions);
+    this.HoursControl = $('#js_HoursAutocomplete').selectize(HoursControlOptions);
+    this.MinutesControl = $("#js_MinAutocomplete").selectize(MinAndSecondsControlOptions);
+    this.SecondsControl = $("#js_SecondsAutocomplete").selectize(MinAndSecondsControlOptions)
 
   }
   // End function
 
   GetValueAutoCompleted(ValToCompare:any):number {
-    debugger
     var data = typeof ValToCompare !== "undefined" ? ValToCompare : 0    
     return parseInt(data);
-
   }
+  // End function
 
 }
