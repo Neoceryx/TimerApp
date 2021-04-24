@@ -32,11 +32,10 @@ export class TimerComponent implements OnInit {
   }
 
   async StartTimer() {
-    
     // Get Values from AutoComplete Controls Or Resume the lasted value when pause was pressed
-    this.Hours = this.Hours <= 0 ? this.GetValueAutoCompleted(this.HoursControl[0].selectize.getValue()) : this.Hours;
-    this.Minutes = this.Minutes <= 0 ? this.GetValueAutoCompleted(this.MinutesControl[0].selectize.getValue()) : this.Minutes;
-    this.Seconds =  this.Seconds <= 0 ? this.GetValueAutoCompleted(this.SecondsControl[0].selectize.getValue()) : this.Seconds;
+    this.Hours = this.GetValueAutoCompleted(this.HoursControl[0].selectize.getValue());
+    this.Minutes = this.GetValueAutoCompleted(this.MinutesControl[0].selectize.getValue());
+    this.Seconds = this.GetValueAutoCompleted(this.SecondsControl[0].selectize.getValue());
     
     // Validate Values in the Timer
     if (this.Hours == 0 && this.Minutes == 0 && this.Seconds == 0) {
@@ -130,7 +129,13 @@ export class TimerComponent implements OnInit {
   // End function
 
   async PauseTimer() {
+
     this.IsRunning = false;
+
+    this.HoursControl[0].selectize.setValue(this.Hours);
+    this.MinutesControl[0].selectize.setValue(this.Minutes);
+    this.SecondsControl[0].selectize.setValue(this.Seconds);
+
     clearInterval(this.Timer);
   }
   // End function
