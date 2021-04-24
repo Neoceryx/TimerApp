@@ -20,8 +20,7 @@ export class NavbarComponent implements OnInit {
     
     setInterval(()=>{
       this.CurrentDate = new Date();
-      this.UTCTime = new Date(this.CurrentDate.getTime() + (this.CurrentDate.getTimezoneOffset() * 60000)); 
-      console.log(this.UTCTime)     
+      this.UTCTime = new Date(this.CurrentDate.getTime() + (this.CurrentDate.getTimezoneOffset() * 60000));            
     },1000)
     
   }
