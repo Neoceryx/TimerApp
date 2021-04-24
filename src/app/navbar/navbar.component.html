@@ -14,10 +14,10 @@
         </li>
 
         <li class="nav-item active">
-          <a class="nav-link" href="#">Local time = {{  CurrentDate | date: 'mediumTime'}} <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="#" title="{{CurrentDate | date: 'mediumTime'}}">Local time = {{  CurrentDate | date: 'HH:mm:ss'}} <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link" href="#">UTC time = {{  UTCTime | date:'h:mm:ss a'}} <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="#" title="{{ UTCTime | date:'h:mm:ss a'}}">UTC time = {{  UTCTime | date: 'HH:mm:ss'}} <span class="sr-only">(current)</span></a>
         </li>
       </ul>
 
