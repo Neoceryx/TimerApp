@@ -6,52 +6,49 @@ declare var $:any;
 @Component({
   selector: 'app-timer',
   templateUrl: './timer.component.html',
-  styleUrls: ['./timer.component.css']
+  styleUrls: ['./timer.component.css'],
 })
 export class TimerComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
+  Hours: number = 0;
+  Minutes: number = 0;
+  Seconds: number = 0;
 
+  Timer: any = null;
+  Sound = new Audio('/assets/sounds/alarm-clock.mp3');
+  IsRunning: boolean = false;
+  IsEditEnabled: boolean = false;
 
-  Hours:number = 0;
-  Minutes:number = 0;
-  Seconds:number = 0;
+  HoursAvailables: any[] = [];
+  MinutesAndSecondsArray: any[] = [];
 
-  Timer:any = null;
-  Sound = new Audio("/assets/sounds/alarm-clock.mp3");
-  IsRunning:boolean = false;
-  IsEditEnabled:boolean = false;
-
-  HoursAvailables: number[] = [];
-  MinutesAndSecondsArray: number[] =[];
+  HoursControl: any = null;
+  MinutesControl:any = null; 
+  SecondsControl: any = null;
 
   ngOnInit(): void {
     this.InitializeEditFormValues();
-
-    // setTimeout(() => {      
-    //   $(".js_autocomplete").selectize({
-    //     persist: false,
-    //     createOnBlur: true,
-    //     create: true
-    //   });      
-    // }, 1000);
-
   }
 
-  async StartTimer(){
-
+  async StartTimer() {
+    
+    // Get Values from AutoComplete Controls Or Resume the lasted value when pause was pressed
+    this.Hours = this.Hours <= 0 ? this.GetValueAutoCompleted(this.HoursControl[0].selectize.getValue()) : this.Hours;
+    this.Minutes = this.Minutes <= 0 ? this.GetValueAutoCompleted(this.MinutesControl[0].selectize.getValue()) : this.Minutes;
+    this.Seconds =  this.Seconds <= 0 ? this.GetValueAutoCompleted(this.SecondsControl[0].selectize.getValue()) : this.Seconds;
+    
+    // Validate Values in the Timer
     if (this.Hours == 0 && this.Minutes == 0 && this.Seconds == 0) {
-
       Swal.fire({
         title: 'Upps!',
         text: 'Please select a valid duration',
         icon: 'error',
-        allowOutsideClick: false
-      })
+        allowOutsideClick: false,
+      });
+    } else {
 
-    }else{      
-      
-      this.IsRunning = true;       
+      this.IsRunning = true;
       this.IsEditEnabled = false;
 
       this.Timer = setInterval(() => {
@@ -59,57 +56,55 @@ export class TimerComponent implements OnInit {
       }, 1000);
 
     }
-
   }
   // End function
 
-  async StopTimer(){
+  async StopTimer() {
 
-    await this.PauseTimer();    
+    await this.PauseTimer();
 
     this.Hours = 0;
     this.Minutes = 0;
     this.Seconds = 0;
 
+    this.HoursControl[0].selectize.setValue(0);
+    this.MinutesControl[0].selectize.setValue(0);
+    this.SecondsControl[0].selectize.setValue(0);
+
     this.Sound.pause();
 
     this.IsRunning = false;
     this.IsEditEnabled = false;
-
   }
   // end function
 
-  async StartDecrement(){
+  async StartDecrement() {
 
-    // To fix the valus got by string
-    this.Hours = parseInt(this.Hours.toString());
-    this.Minutes = parseInt(this.Minutes.toString());
-    this.Seconds = parseInt(this.Seconds.toString());
-    
+    // Parse all values to seconds
     var HoursToSec = this.Hours * 3600;
     var MinToSec = this.Minutes * 60;
     var TotalSec = 0;
-    
-    if (this.Hours == 0 && this.Minutes == 59  && this.Seconds == 59) {
+
+    if (this.Hours == 0 && this.Minutes == 59 && this.Seconds == 59) {
       TotalSec = HoursToSec + MinToSec + 58;
-    }else{
+    } else {
       TotalSec = HoursToSec + MinToSec + this.Seconds;
     }
-    
-    var TotalSecondsRemaining = TotalSec - 1;    
-    var SecToHours = TotalSecondsRemaining / 3600 ;
-    var MinToSec = (SecToHours % 1) * 60;
-    var SecondsRemaining = (MinToSec % 1) * 60
 
-    var min = MinToSec.toString().split(".");
-    var hours = SecToHours.toString().split(".")
+    var TotalSecondsRemaining = TotalSec - 1;
+    var SecToHours = TotalSecondsRemaining / 3600;
+    var MinToSec = (SecToHours % 1) * 60;
+    var SecondsRemaining = (MinToSec % 1) * 60;
+
+    var min = MinToSec.toString().split('.');
+    var hours = SecToHours.toString().split('.');
 
     this.Hours = parseInt(hours[0]);
     this.Minutes = parseInt(min[0]);
     this.Seconds = Math.round(SecondsRemaining);
-    
+
     if (TotalSecondsRemaining <= 0) {
-     
+
       await this.StopTimer();
       this.Sound.play();
 
@@ -117,44 +112,79 @@ export class TimerComponent implements OnInit {
         title: "Time's up",
         icon: 'success',
         allowOutsideClick: false,
-        allowEscapeKey: false
-      }).then((results) =>{
-        
+        allowEscapeKey: false,
+      }).then((results) => {
+
         // If press ok
         if (results.isConfirmed) {
           this.StopTimer();
         }
 
-      })
+      });
+      // End Notification
 
     }
+    // End if
 
   }
   // End function
-  
-  async PauseTimer(){
+
+  async PauseTimer() {
     this.IsRunning = false;
     clearInterval(this.Timer);
   }
   // End function
 
-  async EnableEditTimer() {    
-    this.IsEditEnabled = this.IsEditEnabled == false ? true :false;
+  async EnableEditTimer() {
+    this.IsEditEnabled = this.IsEditEnabled == false ? true : false;
   }
   // End function
 
-  InitializeEditFormValues(){
-
+  InitializeEditFormValues() {
+    
+    // Fill Arrays for the UI Controls
     for (let index = 0; index < 25; index++) {
-      this.HoursAvailables.push(index);            
+      this.HoursAvailables.push({'id': index});
     }
 
     for (let index = 0; index < 60; index++) {
-      this.MinutesAndSecondsArray.push(index);
+      this.MinutesAndSecondsArray.push({'id': index});
     }
+
+    // Standar for Timer Control(Hours, mininutes and Seconds)
+    var HoursControlOptions = {
+      create: false,
+      valueField: 'id',
+      labelField: 'id',
+      searchField: 'id',
+      options: this.HoursAvailables,
+    };
+
+    var MinAndSecondsControlOptions = {
+      create: false,
+      valueField: 'id',
+      labelField: 'id',
+      searchField: 'id',
+      options: this.MinutesAndSecondsArray,
+    };
+
+    // Initialize UI Controls
+    this.HoursControl = $('#js_HoursAutocomplete').selectize(HoursControlOptions);
+    this.MinutesControl = $("#js_MinAutocomplete").selectize(MinAndSecondsControlOptions);
+    this.SecondsControl = $("#js_SecondsAutocomplete").selectize(MinAndSecondsControlOptions)
+
+    // Auto Select the value 0 in all Timer control
+    this.HoursControl[0].selectize.setValue(0);
+    this.MinutesControl[0].selectize.setValue(0);
+    this.SecondsControl[0].selectize.setValue(0);
 
   }
   // End function
 
+  GetValueAutoCompleted(ValToCompare:any):number {
+    var data =  ValToCompare !== "" ? ValToCompare : 0    
+    return parseInt(data);
+  }
+  // End function
 
 }
