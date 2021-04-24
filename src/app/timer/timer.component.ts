@@ -145,7 +145,7 @@ export class TimerComponent implements OnInit {
 
     // Standar for Timer Control(Hours, mininutes and Seconds)
     var HoursControlOptions = {
-      create: true,
+      create: false,
       valueField: 'id',
       labelField: 'id',
       searchField: 'id',
@@ -153,7 +153,7 @@ export class TimerComponent implements OnInit {
     };
 
     var MinAndSecondsControlOptions = {
-      create: true,
+      create: false,
       valueField: 'id',
       labelField: 'id',
       searchField: 'id',
