@@ -9,15 +9,11 @@
             <div class="col-sm-3"></div>
             
             <div class="col-sm-2 form-gropu">
-                <select [(ngModel)]="Hours" name="Hours" class="form-control js_autocomplete">
-                    <option *ngFor="let h of HoursAvailables" [value]="h">
-                        {{h}}
-                    </option>
-                </select>
+                <select id="js_HoursAutocomplete" name="Hours" class="form-control"></select>
             </div>
 
             <div class="col-sm-2 form-gropu">
-                <select [(ngModel)]="Minutes" name="Minutes" class="form-control">
+                <select id="js_MinAutocomplete" [(ngModel)]="Minutes" name="Minutes" class="form-control">
                     <option *ngFor="let m of MinutesAndSecondsArray" [value]="m">
                         {{m}}
                     </option>

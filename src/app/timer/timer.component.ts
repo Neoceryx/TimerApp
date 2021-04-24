@@ -21,13 +21,22 @@ export class TimerComponent implements OnInit {
   IsEditEnabled: boolean = false;
 
   HoursAvailables: any[] = [];
-  MinutesAndSecondsArray: number[] = [];
+  MinutesAndSecondsArray: any[] = [];
+
+  HoursControl: any = null;
+  MinutesControl:any = null; 
+  SecondsControl: any = null;
 
   ngOnInit(): void {
     this.InitializeEditFormValues();
   }
 
   async StartTimer() {
+    debugger
+    var HoursSelected = this.HoursControl[0].selectize.items[0];
+
+    this.Hours = typeof HoursSelected !== "undefined" ? HoursSelected : 0;
+
     if (this.Hours == 0 && this.Minutes == 0 && this.Seconds == 0) {
       Swal.fire({
         title: 'Upps!',
@@ -36,6 +45,7 @@ export class TimerComponent implements OnInit {
         allowOutsideClick: false,
       });
     } else {
+
       this.IsRunning = true;
       this.IsEditEnabled = false;
 
@@ -125,19 +135,19 @@ export class TimerComponent implements OnInit {
     }
 
     for (let index = 0; index < 60; index++) {
-      this.MinutesAndSecondsArray.push(index);
+      this.MinutesAndSecondsArray.push({'id': index});
     }
 
-    debugger   
-    var $select = $('.js_autocomplete').selectize({
+    var ControlOptions = {
       create: true,
       valueField: 'id',
       labelField: 'id',
       searchField: 'id',
       options: this.HoursAvailables,
-  });
+    };
 
-
+    this.HoursControl = $('#js_HoursAutocomplete').selectize(ControlOptions);
+    this.MinutesControl = $("#js_MinAutocomplete").selectize(ControlOptions);
 
   }
   // End function
