@@ -28,15 +28,12 @@ export class TimerComponent implements OnInit {
   ngOnInit(): void {
     this.InitializeEditFormValues();
 
-    // setTimeout(() => {
-      
+    // setTimeout(() => {      
     //   $(".js_autocomplete").selectize({
     //     persist: false,
     //     createOnBlur: true,
     //     create: true
-    //   });
-
-      
+    //   });      
     // }, 1000);
 
   }
@@ -94,7 +91,7 @@ export class TimerComponent implements OnInit {
     var TotalSec = 0;
     
     if (this.Hours == 0 && this.Minutes == 59  && this.Seconds == 59) {
-      TotalSec = HoursToSec + MinToSec;
+      TotalSec = HoursToSec + MinToSec + 58;
     }else{
       TotalSec = HoursToSec + MinToSec + this.Seconds;
     }
