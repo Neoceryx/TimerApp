@@ -11,6 +11,8 @@ declare var $:any;
 export class TimerComponent implements OnInit {
   constructor() {}
 
+  parentExample:string="Time's up";
+
   Hours: number = 0;
   Minutes: number = 0;
   Seconds: number = 0;
@@ -26,6 +28,7 @@ export class TimerComponent implements OnInit {
   HoursControl: any = null;
   MinutesControl:any = null; 
   SecondsControl: any = null;
+  TotalSecondsRemaining:number = 0;
 
   ngOnInit(): void {
     this.InitializeEditFormValues();
@@ -90,8 +93,8 @@ export class TimerComponent implements OnInit {
       TotalSec = HoursToSec + MinToSec + this.Seconds;
     }
 
-    var TotalSecondsRemaining = TotalSec - 1;
-    var SecToHours = TotalSecondsRemaining / 3600;
+    this.TotalSecondsRemaining = TotalSec - 1;
+    var SecToHours = this.TotalSecondsRemaining / 3600;
     var MinToSec = (SecToHours % 1) * 60;
     var SecondsRemaining = (MinToSec % 1) * 60;
 
@@ -102,7 +105,7 @@ export class TimerComponent implements OnInit {
     this.Minutes = parseInt(min[0]);
     this.Seconds = Math.round(SecondsRemaining);
 
-    if (TotalSecondsRemaining <= 0) {
+    if (this.TotalSecondsRemaining <= 0) {
 
       await this.StopTimer();
       this.Sound.play();
