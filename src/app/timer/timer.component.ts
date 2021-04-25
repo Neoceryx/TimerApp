@@ -11,6 +11,8 @@ declare var $:any;
 export class TimerComponent implements OnInit {
   constructor() {}
 
+  parentExample:string="Time's up";
+
   Hours: number = 0;
   Minutes: number = 0;
   Seconds: number = 0;
@@ -26,9 +28,11 @@ export class TimerComponent implements OnInit {
   HoursControl: any = null;
   MinutesControl:any = null; 
   SecondsControl: any = null;
+  TotalSecondsRemaining:number = 0;
 
   ngOnInit(): void {
     this.InitializeEditFormValues();
+    this.InitializeDektopNotifications();
   }
 
   async StartTimer() {
@@ -90,8 +94,8 @@ export class TimerComponent implements OnInit {
       TotalSec = HoursToSec + MinToSec + this.Seconds;
     }
 
-    var TotalSecondsRemaining = TotalSec - 1;
-    var SecToHours = TotalSecondsRemaining / 3600;
+    this.TotalSecondsRemaining = TotalSec - 1;
+    var SecToHours = this.TotalSecondsRemaining / 3600;
     var MinToSec = (SecToHours % 1) * 60;
     var SecondsRemaining = (MinToSec % 1) * 60;
 
@@ -102,8 +106,7 @@ export class TimerComponent implements OnInit {
     this.Minutes = parseInt(min[0]);
     this.Seconds = Math.round(SecondsRemaining);
 
-    if (TotalSecondsRemaining <= 0) {
-
+    if (this.TotalSecondsRemaining <= 0) {
       await this.StopTimer();
       this.Sound.play();
 
@@ -113,14 +116,18 @@ export class TimerComponent implements OnInit {
         allowOutsideClick: false,
         allowEscapeKey: false,
       }).then((results) => {
-
         // If press ok
         if (results.isConfirmed) {
           this.StopTimer();
         }
-
       });
       // End Notification
+
+      // show notification here
+      var notify = new Notification('Hi there!', {
+        body:"Timer has been reaches time specyfied",
+        icon: 'https://bit.ly/2DYqRrh',
+      });
 
     }
     // End if
@@ -145,7 +152,7 @@ export class TimerComponent implements OnInit {
   }
   // End function
 
-  InitializeEditFormValues() {
+  async InitializeEditFormValues() {
     
     // Fill Arrays for the UI Controls
     for (let index = 0; index < 25; index++) {
@@ -189,6 +196,46 @@ export class TimerComponent implements OnInit {
   GetValueAutoCompleted(ValToCompare:any):number {
     var data =  ValToCompare !== "" ? ValToCompare : 0    
     return parseInt(data);
+  }
+  // End function
+
+
+  async InitializeDektopNotifications(){
+    
+    // Validate if browser supports Desktop Notifications
+    if (!window.Notification) {
+      
+      Swal.fire({
+        title: 'Upps!',
+        text: 'Browser does not support notifications.',
+        icon: 'error',
+        allowOutsideClick: false,
+      });
+
+    } else {
+      // Check if permisson is garanted
+      if (Notification.permission !== 'granted') {
+        // request permission from user
+        Notification.requestPermission().then(function (p) {
+            if (p === 'granted') {
+
+              // show notification here
+              var notify = new Notification('Hi there!',{
+                body:"You will receive  notifications when timer has been reached time specified",
+                icon:"https://bit.ly/2DYqRrh"
+              });
+
+            } else {
+              console.log('User blocked notifications.');
+            }
+          }).catch(function (err) {
+            console.error(err);
+          });
+      } else {
+      }
+    }
+    // End Desktop notification support verification
+
   }
   // End function
 

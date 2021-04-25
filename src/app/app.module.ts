@@ -5,7 +5,8 @@ import { AppComponent } from './app.component';
 import {StopWatchComponent } from "./stop-watch/stop-watch.component";
 import { NavbarComponent } from './navbar/navbar.component';
 import { TimerComponent } from './timer/timer.component';
-import { FormsModule } from '@angular/forms'; 
+import { FormsModule } from '@angular/forms';
+import { DesktopNotificationComponent } from './desktop-notification/desktop-notification.component'; 
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { FormsModule } from '@angular/forms';
     AppComponent,
     StopWatchComponent,
     NavbarComponent,
-    TimerComponent
+    TimerComponent,
+    DesktopNotificationComponent
   ],
   imports: [
     BrowserModule,
